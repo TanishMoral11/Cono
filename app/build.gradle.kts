@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
 }
 
+val apiKey: String by project
 android {
     namespace = "com.example.cono"
     compileSdk = 34
@@ -18,7 +19,8 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
-    }
+
+          }
 
     buildTypes {
         release {
@@ -68,3 +70,4 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation("com.google.ai.client.generativeai:generativeai:0.7.0")
 }
+// Add this line at the end of the file
