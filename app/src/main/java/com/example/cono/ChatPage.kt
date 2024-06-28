@@ -82,9 +82,9 @@ fun MessageList(modifier: Modifier = Modifier, messageList: List<MessageModel>) 
         ) {
             Icon(
                 modifier = Modifier.size(60.dp),
-                tint = Purple80,
-                painter = painterResource(id = R.drawable.baseline_question_answer_24),
-                contentDescription = "Icon"
+                painter = painterResource(id = R.drawable.logo),
+                contentDescription = "Icon",
+                tint = Color.Unspecified  // This line ensures no tint is applied
             )
             Text(
                 text = "Your AI friend for making new connections",

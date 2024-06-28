@@ -12,13 +12,13 @@
         android:icon="@drawable/logo"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Cono"
+        android:theme="@style/Theme.Cono.MySplashScreen"
         tools:targetApi="31">
         <activity
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.Cono">
+            android:theme="@style/Theme.Cono.MySplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

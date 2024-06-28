@@ -69,5 +69,9 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation("com.google.ai.client.generativeai:generativeai:0.7.0")
+    //Dependency for splash screen
+    implementation("androidx.core:core-splashscreen:1.0.0")
+    //Dependency for the life cycle of splash screen
+    implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
 }
 // Add this line at the end of the file

@@ -8,14 +8,28 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.example.cono.ui.theme.ConoTheme
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
+
+        var keepSplashScreenOn = true
+        splashScreen.setKeepOnScreenCondition { keepSplashScreenOn }
+
+        lifecycleScope.launch {
+            delay(2000) // 2 seconds delay
+            keepSplashScreenOn = false
+        }
+
         enableEdgeToEdge()
-        val chatViewModel = ViewModelProvider(this)[ChatViewModel :: class.java]
+        val chatViewModel = ViewModelProvider(this)[ChatViewModel::class.java]
         setContent {
             ConoTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
@@ -25,4 +39,3 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
