@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -30,7 +31,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ClipboardManager
 import androidx.compose.ui.platform.LocalClipboardManager
@@ -46,17 +50,23 @@ import com.example.cono.ui.theme.Purple80
 
 @Composable
 fun ChatPage(modifier: Modifier = Modifier, viewModel: ChatViewModel<*>) {
-    Column(modifier = modifier) {
+    Box(modifier = modifier.fillMaxSize()) {
+        Column {
+            // MessageList now takes up the full height
+            MessageList(
+                modifier = Modifier.weight(1f),
+                messageList = viewModel.messageList
+            )
+            MessageInput(onMessage = {
+                viewModel.sendMessage(it)
+            })
+        }
+        // AppHeader is positioned on top
         AppHeader(
             onNewChat = {
-                // Clear the message list and start a new chat
                 viewModel.clearChat()
             }
         )
-        MessageList(modifier = Modifier.weight(1f), messageList = viewModel.messageList)
-        MessageInput(onMessage = {
-            viewModel.sendMessage(it)
-        })
     }
 }
 
@@ -206,18 +216,28 @@ fun AppHeader(onNewChat: () -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.primary)
+            .height(64.dp)
     ) {
+        // This box acts as the blurred background
+        Box(
+            modifier = Modifier
+                .matchParentSize()
+                .alpha(0.5f) // Adjust transparency
+                .blur(radius = 10.dp) // Adjust blur intensity
+                .background(MaterialTheme.colorScheme.surface)
+        )
+
+        // This is the content of the header
         Row(
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxSize()
                 .padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             SelectionContainer {
                 Text(
                     text = "Cono",
-                    color = Color.White,
+                    color = MaterialTheme.colorScheme.onSurface,
                     fontSize = 22.sp,
                 )
             }
@@ -228,7 +248,7 @@ fun AppHeader(onNewChat: () -> Unit) {
                 Icon(
                     imageVector = Icons.Default.Create,
                     contentDescription = "New Chat",
-                    tint = Color.White
+                    tint = MaterialTheme.colorScheme.onSurface
                 )
             }
         }
