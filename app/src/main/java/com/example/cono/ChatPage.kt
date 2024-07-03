@@ -37,15 +37,20 @@ fun ChatPage(modifier: Modifier = Modifier, navController: NavController, authVi
     val chatViewModel: ChatViewModel = viewModel()
     val messages = chatViewModel.messageList
 
-    Box(modifier = modifier.fillMaxSize()) {
-        Column {
-            MessageList(
-                modifier = Modifier.weight(1f),
-                messageList = messages
-            )
-            MessageInput(onMessage = { chatViewModel.sendMessage(it) })
+    Surface(
+        modifier = modifier.fillMaxSize(),
+        color = MaterialTheme.colorScheme.background // This ensures the background respects the theme
+    ) {
+        Box(modifier = Modifier.fillMaxSize()) {
+            Column {
+                MessageList(
+                    modifier = Modifier.weight(1f),
+                    messageList = messages
+                )
+                MessageInput(onMessage = { chatViewModel.sendMessage(it) })
+            }
+            AppHeader(onNewChat = { chatViewModel.clearChat() })
         }
-        AppHeader(onNewChat = { chatViewModel.clearChat() })
     }
 }
 
@@ -66,6 +71,7 @@ fun MessageList(modifier: Modifier = Modifier, messageList: List<MessageModel>) 
             Text(
                 text = "Your AI friend for making new connections",
                 fontSize = 22.sp,
+                color = MaterialTheme.colorScheme.onBackground, // Use theme color
                 textAlign = androidx.compose.ui.text.style.TextAlign.Center,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -109,7 +115,8 @@ fun MessageRow(messageModel: MessageModel) {
                     SelectionContainer {
                         Text(
                             text = messageModel.message,
-                            fontWeight = FontWeight.W500
+                            fontWeight = FontWeight.W500,
+                            color = if (isModel) Color.Black else Color.White
                         )
                     }
                     if (messageModel.message != "typing...") {
@@ -122,7 +129,8 @@ fun MessageRow(messageModel: MessageModel) {
                         ) {
                             Icon(
                                 painter = painterResource(id = R.drawable.baseline_content_copy_24),
-                                contentDescription = "Copy"
+                                contentDescription = "Copy",
+                                tint = MaterialTheme.colorScheme.onSurfaceVariant
                             )
                         }
                     }
