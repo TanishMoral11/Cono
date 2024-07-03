@@ -29,12 +29,10 @@ class MainActivity : ComponentActivity() {
         }
 
         enableEdgeToEdge()
-        val chatViewModel = ViewModelProvider(this)[ChatViewModel::class.java]
+        val authViewModel = ViewModelProvider(this)[AuthViewModel::class.java]
         setContent {
             ConoTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    ChatPage(modifier = Modifier.padding(innerPadding), chatViewModel)
-                }
+                MyAppNavigation(authViewModel = authViewModel)
             }
         }
     }

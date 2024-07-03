@@ -1,3 +1,4 @@
+// ChatViewModel.kt
 package com.example.cono
 
 import androidx.compose.runtime.mutableStateListOf
@@ -7,13 +8,13 @@ import com.google.ai.client.generativeai.GenerativeModel
 import com.google.ai.client.generativeai.type.content
 import kotlinx.coroutines.launch
 
-class ChatViewModel<T> : ViewModel() {
+class ChatViewModel : ViewModel() {
 
     val messageList by lazy {
         mutableStateListOf<MessageModel>()
     }
 
-    private val generativeModel: GenerativeModel = GenerativeModel(
+    private val generativeModel = GenerativeModel(
         modelName = "gemini-1.5-flash-001",
         apiKey = Constants.apiKey
     )
@@ -21,7 +22,7 @@ class ChatViewModel<T> : ViewModel() {
     fun sendMessage(question: String) {
         viewModelScope.launch {
             try {
-                val instruction = """Behave like a actual human and show some excitement, curiosity, kindness and empathy in yor response .  Provide a concise response to continue the conversation without extra phrases."""
+                val instruction = "Behave like an actual human and show some excitement, curiosity, kindness, and empathy in your response. Provide a concise response to continue the conversation without extra phrases."
 
                 messageList.add(MessageModel(question, "user"))
                 messageList.add(MessageModel("Thinking ...", "model"))

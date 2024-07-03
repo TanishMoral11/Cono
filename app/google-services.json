@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "886158947579",
+    "project_id": "cono-de124",
+    "storage_bucket": "cono-de124.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:886158947579:android:84d98231b4e753b5436c5e",
+        "android_client_info": {
+          "package_name": "com.example.cono"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCGDtek_1E45Fq4TUFtXcZ2I9mW_cYyDrc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
