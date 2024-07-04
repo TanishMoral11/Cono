@@ -3,12 +3,8 @@ package com.example.cono
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.cono.ui.theme.ConoTheme
@@ -28,7 +24,18 @@ class MainActivity : ComponentActivity() {
             keepSplashScreenOn = false
         }
 
-        val authViewModel = ViewModelProvider(this)[AuthViewModel::class.java]
+        // Create a custom ViewModelProvider.Factory
+        val factory = object : ViewModelProvider.Factory {
+            override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                if (modelClass.isAssignableFrom(AuthViewModel::class.java)) {
+                    return AuthViewModel(this@MainActivity) as T
+                }
+                throw IllegalArgumentException("Unknown ViewModel class")
+            }
+        }
+
+        val authViewModel = ViewModelProvider(this, factory)[AuthViewModel::class.java]
+
         setContent {
             ConoTheme {
                 MyAppNavigation(authViewModel = authViewModel)

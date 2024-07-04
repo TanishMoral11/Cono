@@ -1,21 +1,28 @@
 package com.example.cono
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 
-class AuthViewModel : ViewModel() {
+class AuthViewModel(context: Context) : ViewModel() {
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
+    private val sharedPreferences = context.getSharedPreferences("auth_prefs", Context.MODE_PRIVATE)
 
     private val _authState = MutableLiveData<AuthState>()
     val authState: LiveData<AuthState> = _authState
 
+    init {
+        checkAuthStatus()
+    }
+
     fun checkAuthStatus() {
-        _authState.value = if (auth.currentUser == null) {
-            AuthState.Unauthenticated
-        } else {
+        val isLoggedIn = sharedPreferences.getBoolean("is_logged_in", false)
+        _authState.value = if (isLoggedIn && auth.currentUser != null) {
             AuthState.Authenticated
+        } else {
+            AuthState.Unauthenticated
         }
     }
 
@@ -28,6 +35,7 @@ class AuthViewModel : ViewModel() {
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 _authState.value = if (task.isSuccessful) {
+                    saveLoginState(true)
                     AuthState.Authenticated
                 } else {
                     AuthState.Error(task.exception?.message ?: "Invalid credentials")
@@ -44,6 +52,7 @@ class AuthViewModel : ViewModel() {
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 _authState.value = if (task.isSuccessful) {
+                    saveLoginState(true)
                     AuthState.Authenticated
                 } else {
                     AuthState.Error(task.exception?.message ?: "Signup failed")
@@ -53,11 +62,16 @@ class AuthViewModel : ViewModel() {
 
     fun signOut() {
         auth.signOut()
+        saveLoginState(false)
         _authState.value = AuthState.Unauthenticated
     }
 
     fun logOut() {
         signOut()
+    }
+
+    private fun saveLoginState(isLoggedIn: Boolean) {
+        sharedPreferences.edit().putBoolean("is_logged_in", isLoggedIn).apply()
     }
 }
 
