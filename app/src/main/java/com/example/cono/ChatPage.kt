@@ -1,4 +1,4 @@
-package com.example.cono.pages
+package com.example.cono
 
 import android.widget.Toast
 import androidx.compose.foundation.background
@@ -27,8 +27,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.cono.*
-import com.example.cono.R
 import com.example.cono.ui.theme.ColorModelMessage
 import com.example.cono.ui.theme.ColorUserMessage
 
@@ -49,7 +47,15 @@ fun ChatPage(modifier: Modifier = Modifier, navController: NavController, authVi
                 )
                 MessageInput(onMessage = { chatViewModel.sendMessage(it) })
             }
-            AppHeader(onNewChat = { chatViewModel.clearChat() })
+            AppHeader(
+                onNewChat = { chatViewModel.clearChat() },
+                onLogOut = {
+                    authViewModel.logOut()
+                    navController.navigate("login"){
+                        popUpTo(navController.graph.startDestinationId) { inclusive = true }
+                    }
+                }
+            )
         }
     }
 }
@@ -170,7 +176,9 @@ fun MessageInput(onMessage: (String) -> Unit) {
 }
 
 @Composable
-fun AppHeader(onNewChat: () -> Unit) {
+fun AppHeader(onNewChat: () -> Unit, onLogOut: () -> Unit) {
+    var showLogOutButton by remember { mutableStateOf(false) }
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -204,6 +212,18 @@ fun AppHeader(onNewChat: () -> Unit) {
                     contentDescription = "New Chat",
                     tint = MaterialTheme.colorScheme.onSurface
                 )
+            }
+            IconButton(onClick = { showLogOutButton = !showLogOutButton }) {
+                Icon(
+                    painter = painterResource(id = R.drawable.baseline_profile),
+                    contentDescription = "Profile",
+                    tint = MaterialTheme.colorScheme.onSurface
+                )
+            }
+            if (showLogOutButton) {
+                Button(onClick = onLogOut) {
+                    Text("Log Out")
+                }
             }
         }
     }

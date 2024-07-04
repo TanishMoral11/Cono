@@ -28,7 +28,6 @@ class MainActivity : ComponentActivity() {
             keepSplashScreenOn = false
         }
 
-        enableEdgeToEdge()
         val authViewModel = ViewModelProvider(this)[AuthViewModel::class.java]
         setContent {
             ConoTheme {
