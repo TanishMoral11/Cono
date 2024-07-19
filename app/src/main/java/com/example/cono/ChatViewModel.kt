@@ -16,7 +16,7 @@ class ChatViewModel : ViewModel() {
 
     private val generativeModel = GenerativeModel(
         modelName = "gemini-1.5-flash-001",
-        apiKey = Constants.apiKey
+        apiKey = "AIzaSyDciOEKhjOmJAOHpfl5fgkcK79sGE2nG94"
     )
 
     fun sendMessage(question: String) {

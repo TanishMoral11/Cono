@@ -3,5 +3,5 @@ package com.example.cono
 
 object Constants {
 
-    val apiKey = "AIzaSyA3rEGWVT2uVTJMLOhESCutHQlvWFStUqY"
+    val apiKey = "AIzaSyDciOEKhjOmJAOHpfl5fgkcK79sGE2nG94"
 }
