@@ -27,6 +27,7 @@ android {
 
     buildTypes {
         release {
+            //isMinifyEnabled = true means it will minify the code in release mode so any attacker can't access the code
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
