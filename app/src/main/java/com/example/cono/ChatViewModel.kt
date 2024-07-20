@@ -4,6 +4,7 @@ package com.example.cono
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.cono.BuildConfig
 import com.google.ai.client.generativeai.GenerativeModel
 import com.google.ai.client.generativeai.type.content
 import kotlinx.coroutines.launch
@@ -13,10 +14,10 @@ class ChatViewModel : ViewModel() {
     val messageList by lazy {
         mutableStateListOf<MessageModel>()
     }
-
+    val apiKey = BuildConfig.API_KEY
     private val generativeModel = GenerativeModel(
         modelName = "gemini-1.5-flash-001",
-        apiKey = "AIzaSyDciOEKhjOmJAOHpfl5fgkcK79sGE2nG94"
+        apiKey = apiKey
     )
 
     fun sendMessage(question: String) {

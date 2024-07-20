@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
@@ -21,7 +23,7 @@ android {
             useSupportLibrary = true
         }
 
-          }
+        buildConfigField("String", "API_KEY", "\"${project.findProperty("API_KEY") ?: ""}\"")    }
 
     buildTypes {
         release {
@@ -41,6 +43,8 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
+
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
